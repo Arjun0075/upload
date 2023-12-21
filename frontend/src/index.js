@@ -2,12 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import Uploads from "./components/upload.js"
-import Test from './components/test.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <div>
-     {/* <Test/> */}
      <Uploads/>
   </div>
    

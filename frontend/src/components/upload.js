@@ -17,26 +17,29 @@ function Uploads() {
   };
 
   const uploadFile = (event) => {
-    const files = event.target.files
+    const files = event.target.files;
     if (!files) return;
-    for(let i = 0; i < files.length ; i ++){
+    for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
       formData.append("file", files[i]);
-      setFiles((prevState) => [...prevState, { name: files[i].name, loading: 0 }]);
+      setFiles((preValue) => [
+        ...preValue,
+        { name: files[i].name, loading: 0 },
+      ]);
       setShowProgress(true);
       axios
         .post("http://localhost:8000/upload", formData, {
           onUploadProgress: ({ loaded, total }) => {
-            setFiles(prevState => {
-              debugger
-              const newFiles = [...prevState];
-              if(newFiles.length > 1){
-                newFiles[newFiles.length - 1].loading = Math.floor(
-                  (loaded / total) * 100
-                );
+            setFiles((preValue) => {
+              if (preValue) {
+                const newFiles = [...preValue];
+                if (newFiles.length > 0) {
+                  for (let i = 0; i < newFiles.length; i++) {
+                    newFiles[i].loading = Math.floor((loaded / total) * 100);
+                  }
+                  return newFiles;
+                }
               }
-              
-              return newFiles;
             });
             if (loaded === total) {
               const fileSize =
@@ -44,11 +47,9 @@ function Uploads() {
                   ? `${total} KB`
                   : `${(loaded / (1024 * 1024)).toFixed(2)} MB`;
               setUploadedfiles((preValue) => {
-                return [
-                ...preValue,
-                {name: files[i].name, size: fileSize },
-              ]});
-             
+                return [...preValue, { name: files[i].name, size: fileSize }];
+              });
+
               setFiles([]);
               setShowProgress(false);
             }
@@ -84,7 +85,7 @@ function Uploads() {
               <div className="content">
                 <div className="details">
                   <span className="name">{`${file.name} -uploading`}</span>
-                  <span className="percent">{`${file.loading}`}</span>
+                  <span className="percent">{`${file.loading} %`}</span>
                   <div className="loading-bar">
                     <div
                       className="loading"
