@@ -19,7 +19,10 @@ const uploads =  multer({storage: storage});
 app.post("/upload" , uploads.array("file") , (req, res) => {
     console.log(req.body)
     console.log(req.files)
-    res.json({status : "Files recieved"})
+    if(req.files){
+        res.json({status : 200 }, {message : "File uploaded successfully"})
+    }
+    
 })
 
 app.listen(8000 , ()=>{

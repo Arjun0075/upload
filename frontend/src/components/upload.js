@@ -18,7 +18,9 @@ function Uploads() {
 
   const uploadFile = (event) => {
     const files = event.target.files;
-    if (!files) return;
+    if (!files) {
+      return ;
+    }
     for (let i = 0; i < files.length; i++) {
       const formData = new FormData();
       formData.append("file", files[i]);
@@ -42,6 +44,7 @@ function Uploads() {
               }
             });
             if (loaded === total) {
+              // window.alert("File updated")
               const fileSize =
                 total < 1024
                   ? `${total} KB`
@@ -55,9 +58,14 @@ function Uploads() {
             }
           },
         })
+        // .then((res)=>{
+        //   console.log(res.data.status)
+        //   window.alert(res.data.status)
+        // })
         .catch(console.error);
     }
   };
+
 
   return (
     <div className="upload-box">
