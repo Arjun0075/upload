@@ -20,7 +20,7 @@ app.post("/upload" , uploads.array("file") , (req, res) => {
     console.log(req.body)
     console.log(req.files)
     if(req.files){
-        res.json({status : 200 }, {message : "File uploaded successfully"})
+        res.json({message : "File uploaded successfully"})
     }
     
 })
